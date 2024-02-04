@@ -24,12 +24,30 @@ PowerStride is at the forefront of wearable green technology, merging fitness wi
 
 Detailed documentation on the PowerStride setup, operation, and troubleshooting can be found in the `/docs` directory.
 
+### Description of Connections
+
+1. **Generator to Booster**:
+   - The output from the kinetic energy generator is connected to the input of the boost converter (booster). This setup steps up the voltage to a suitable level for charging the battery or powering devices.
+
+2. **Booster to Battery**:
+   - The output of the booster is connected to the battery, providing a regulated voltage to charge the battery safely.
+
+3. **Battery to Arduino (for Monitoring)**:
+   - A voltage divider is used to step down the battery voltage to a safe level below 5V, which is then connected to an analog input pin on the Arduino for battery voltage monitoring.
+
+4. **Arduino to Booster (Control Signal)**:
+   - If the booster has an enable pin or voltage control pin, it can be connected to a digital output pin on the Arduino. This allows the Arduino to control the booster based on the battery's charge status or other logic.
+
+### Additional Notes:
+
+- Ensure to include safety features like overcurrent protection, diode protection against backflow, and proper grounding.
+- Use appropriate gauge wires for connections, especially for those carrying higher currents from the generator to the booster and from the booster to the battery.
+
 [Generator] --(electricity)--> [Booster] --(regulated voltage)--> [Battery]
                                                |
                                           (control signal)
                                                |
                                           [Arduino] --(monitoring)--> [Battery Voltage]
-
 
 ## Hardware and Software Requirements
 
