@@ -24,6 +24,13 @@ PowerStride is at the forefront of wearable green technology, merging fitness wi
 
 Detailed documentation on the PowerStride setup, operation, and troubleshooting can be found in the `/docs` directory.
 
+[Generator] --(electricity)--> [Booster] --(regulated voltage)--> [Battery]
+                                               |
+                                          (control signal)
+                                               |
+                                          [Arduino] --(monitoring)--> [Battery Voltage]
+
+
 ## Hardware and Software Requirements
 
 For a list of necessary materials, hardware schematics, and software dependencies, please refer to the `/hardware` and `/src` directories, respectively.
