@@ -24,7 +24,7 @@ PowerStride is at the forefront of wearable green technology, merging fitness wi
 
 Detailed documentation on the PowerStride setup, operation, and troubleshooting can be found in the `/docs` directory.
 
-### Description of Connections
+## Description of Connections
 
 1. **Generator to Booster**:
    - The output from the kinetic energy generator is connected to the input of the boost converter (booster). This setup steps up the voltage to a suitable level for charging the battery or powering devices.
