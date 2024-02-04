@@ -1,41 +1,40 @@
-// Constants for battery voltage level measurements
-const int batteryPin = A0; // The pin where the battery voltage is connected
-const float batteryMaxVoltage = 4.2; // The voltage that corresponds to a fully charged battery
-const float batteryMinVoltage = 3.0; // The voltage that corresponds to an empty battery
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 
-// Variables for storing the battery level
-float batteryVoltage = 0.0; // Stores the measured battery voltage
-float batteryPercentage = 0.0; // Stores the battery charge as a percentage
+// Set the LCD I2C address
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 
-// Setup function runs once when you reset or power up the board
+const int batteryPin = A0; 
+const float fullVoltage = 1.8; 
+const float emptyVoltage = 1.5;
 void setup() {
-  Serial.begin(9600); // Start serial communication
-  pinMode(batteryPin, INPUT); // Set the battery pin as an input
+  lcd.init();                     
+  lcd.backlight();                 
+  Serial.begin(9600);              
 }
 
-// Loop function runs over and over again forever
 void loop() {
-  // Read the battery voltage
-  batteryVoltage = analogRead(batteryPin) * (5.0 / 1023.0) * (11.0); // Adjust the last multiplier (11.0) based on your voltage divider ratio
+  int sensorValue = analogRead(batteryPin);
+  float voltage = sensorValue * (5.0 / 1023.0); 
+  float percentage = (voltage - emptyVoltage) / (fullVoltage - emptyVoltage) * 100;
+  percentage = constrain(percentage, 0, 100); 
 
-  // Convert the voltage to a percentage (assuming a linear discharge curve, which is not accurate for all battery types)
-  batteryPercentage = map(batteryVoltage, batteryMinVoltage, batteryMaxVoltage, 0, 100);
-
-  // Constrain the percentage to between 0% and 100%
-  batteryPercentage = constrain(batteryPercentage, 0, 100);
-
-  // Print the battery voltage and percentage to the Serial Monitor
+ 
   Serial.print("Battery Voltage: ");
-  Serial.print(batteryVoltage);
-  Serial.println(" V");
+  Serial.print(voltage, 2); 
+  Serial.print("V, Percentage: ");
+  Serial.println(percentage, 0); 
 
-  Serial.print("Battery Percentage: ");
-  Serial.print(batteryPercentage);
-  Serial.println(" %");
+ 
+  lcd.setCursor(0, 0);
+  lcd.print("Voltage: ");
+  lcd.print(voltage, 2);
+  lcd.print("V");
+  
+  lcd.setCursor(0, 1); 
+  lcd.print("Charge: ");
+  lcd.print(percentage, 0);
+  lcd.print("%");
 
-  // Add code here to handle the energy selling logic
-  // ...
-
-  // Wait for a short period before taking another measurement
-  delay(5000);
+  delay(2000);
 }
